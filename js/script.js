@@ -7,7 +7,7 @@ class Memorama {
         this.card1 = null;
         this.card2 = null;
 
-        this.availableImages = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18];
+        this.availableImages = [1,2,3,4,10,32,12,21];
         this.orderForThisRound = [];
         this.cards = Array.from( document.querySelectorAll(".board-game figure") );
 
@@ -94,6 +94,7 @@ class Memorama {
     checkPair(image) {
 
         if (!this.card1) this.card1 = image;
+        
         else this.card2 = image;
 
         if (this.card1 && this.card2) {
@@ -101,13 +102,13 @@ class Memorama {
             if (this.card1 == this.card2) {
 
                 this.canPlay = false;
-                setTimeout(this.checkIfWon.bind(this), 3000)
+                setTimeout(this.checkIfWon.bind(this), 300)
                 
             }
             else {
 
                 this.canPlay = false;
-                setTimeout(this.resetOpenedCards.bind(this), 8000)
+                setTimeout(this.resetOpenedCards.bind(this), 800)
 
             }
 
