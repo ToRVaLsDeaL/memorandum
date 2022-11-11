@@ -7,16 +7,16 @@
 main {
     display: grid;
     grid-gap: 10px;
-    grid-template-columns: repeat(4, 1fr);
-    max-width: 1000px;
+    grid-template-columns: repeat(4, 4fr);
+    max-width: 650px;
     margin: auto;
 }
 
 figure,
 figure img {
     display: inline-block;
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 130px;    
 }
 
 figure {
@@ -25,7 +25,7 @@ figure {
     transform-style: preserve-3d;
     transform: perspective(600px) rotateY(0deg);
     cursor: pointer;
-    box-shadow: 3px 3px 16px rgb(0, 0, 0, 0.6);
+    box-shadow: 5px 5px 22px rgb(0, 0, 0, 0.6);
 }
 
 figure::after {
@@ -46,14 +46,15 @@ figure:hover:after {
 
 figure.opened {
     transform: perspective(600px) rotateY(180deg);
+    color: rgba(44, 199, 27, 0.374);
+
 }
 
 figure .back {
     display: block;
     backface-visibility: hidden;
-    width: 150px;
-    height: 150px;
-    
+    width: 140px;
+    height: 130px;
 }
 
 figure .searched-image {
@@ -64,3 +65,25 @@ figure .searched-image {
     height: 100%;
     overflow: hidden;
 }
+
+figure.shake {
+    /* Start the shake animation and make the animation last for 0.5 seconds */
+    animation: shake 0.6s;
+  
+    /* When the animation is finished, start again */
+    animation-iteration-count: 1;
+  }
+  
+  @keyframes shake {
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
+  }

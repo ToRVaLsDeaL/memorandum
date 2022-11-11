@@ -3,23 +3,28 @@ class Memorama {
     constructor() {
 
         this.canPlay = false;
+        this.counter = 0;
 
         this.card1 = null;
         this.card2 = null;
-
-        this.availableImages = [1,2,3,4,10,32,12,21];
+        this.images1=  [1,10,3,12,5,14,7,16];
+        this.images2 = [9,2,11,4,13,6,15,8];
+        this.images3 = [25,18,27,20,29,22,31,24];
+        this.images4 = [17,26,19,28,21,30,23,32];
+        this.availableImages = [this.images1, this.images2, this.images3, this.images4];
+        this.randomImages = 0;
         this.orderForThisRound = [];
         this.cards = Array.from( document.querySelectorAll(".board-game figure") );
-
-        this.maxPairNumber = this.availableImages.length;
+        this.maxPairNumber = 8;
 
         this.startGame();
 
     }
 
     startGame() {
-
         this.foundPairs = 0;
+        this.counter= 0;
+        document.getElementById("intentos").innerHTML = "Intentos: " + this.counter
         this.setNewOrder();
         this.setImagesInCards();
         this.openCards();
@@ -27,8 +32,8 @@ class Memorama {
     }
 
     setNewOrder() {
-
-        this.orderForThisRound = this.availableImages.concat(this.availableImages);
+        this.randomImages = Math.floor(Math.random() * 4);
+        this.orderForThisRound = this.availableImages[this.randomImages].concat(this.availableImages[this.randomImages]);
         this.orderForThisRound.sort( () => Math.random() - 0.5 );
 
     }
@@ -54,7 +59,7 @@ class Memorama {
 
         setTimeout(() => {
             this.closeCards();
-        }, 7000);
+        }, 1000);
 
     }
 
@@ -93,11 +98,15 @@ class Memorama {
 
     checkPair(image) {
 
-        if (!this.card1) this.card1 = image;
-        
-        else this.card2 = image;
+
+        if (!this.card1){ this.card1 = image;
+
+        }else{ this.card2 = image;}
 
         if (this.card1 && this.card2) {
+            this.counter++;
+            document.getElementById("intentos").innerHTML = "Intentos: " + this.counter
+            console.log(this.counter);
             
             if (this.card1 == this.card2) {
 
@@ -106,9 +115,12 @@ class Memorama {
                 
             }
             else {
-
+                const firstOpened = document.querySelector(`.board-game figure.opened[data-image='${this.card1}']`);
+                const secondOpened = document.querySelector(`.board-game figure.opened[data-image='${this.card2}']`);
+                firstOpened.classList.add("shake");
+                secondOpened.classList.add("shake");
                 this.canPlay = false;
-                setTimeout(this.resetOpenedCards.bind(this), 800)
+                setTimeout(this.resetOpenedCards.bind(this), 2000)
 
             }
 
@@ -123,6 +135,9 @@ class Memorama {
 
         firstOpened.classList.remove("opened");
         secondOpened.classList.remove("opened");
+
+        firstOpened.classList.remove("shake");
+        secondOpened.classList.remove("shake");
 
         this.card1 = null;
         this.card2 = null;
@@ -141,7 +156,7 @@ class Memorama {
 
         if (this.maxPairNumber == this.foundPairs) {
 
-            alert("¡Ganaste!");
+            alert("¡Ganaste! Ronda terminada en "+this.counter+" Intentos");
             this.setNewGame();
             
         }
@@ -149,10 +164,8 @@ class Memorama {
     }
 
     setNewGame() {
-
         this.removeClickEvents();
         this.cards.forEach(card => card.classList.remove("opened"));
-
         setTimeout(this.startGame.bind(this), 1000);
 
     }
